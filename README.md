@@ -1,4 +1,4 @@
-# POWBoy1.github.io
+# Projects Portal
 
 ![🌐](https://img.shields.io/badge/Website-Online-green) ![📂](https://img.shields.io/badge/Projects-Hub-blue)
 
