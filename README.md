@@ -10,7 +10,7 @@ This Portal is a central collection of all my projects. Explore and enjoy my wor
 
 Click the link below to visit the hub and browse my projects:
 
-🌐 [Visit POWBoy1 Portal](https://powboy1.github.io/)  
+🌐 [Visit POWBoy1 Portal](https://gameshub.powboy1.xyz/)  
 
 ## What You’ll Find
 
