@@ -5,166 +5,223 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>POWBoy1's Projects Portal</title>
   <meta name="description" content="A showcase of projects by POWBoy1, including games and web tools.">
-  <link rel="icon" href="Assets/ProfileIcon.png" type="image/png">
-  <link href="style.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
+  <meta name="author" content="POWBoy1">
+  
   <meta property="og:title" content="POWBoy1's Projects Portal">
   <meta property="og:description" content="Explore games and web tools created by POWBoy1 — fun, creative, and always expanding.">
-  <meta property="og:image" content="http://raw.githubusercontent.com/POWBoy1/POWBoy1.github.io/refs/heads/main/Assets/Preview.png">
-  <meta property="og:url" content="https://powboy1.github.io/">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://raw.githubusercontent.com/POWBoy1/POWBoy1.github.io/refs/heads/main/Assets/Preview.png">
+  <meta property="og:url" content="https://powboy1.xyz/">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWBoy1's Projects Portal">
+  <meta name="twitter:description" content="Explore games and web tools created by POWBoy1">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/POWBoy1/POWBoy1.github.io/refs/heads/main/Assets/Preview.png">
+  
+  <link rel="icon" href="Assets/ProfileIcon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+
 </head>
 <body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <button class="nav-btn" data-section="projects">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="6" y1="11" x2="10" y2="11"></line><line x1="8" y1="9" x2="8" y2="13"></line>
+        <line x1="15" y1="12" x2="15.01" y2="12"></line><line x1="18" y1="10" x2="18.01" y2="10"></line>
+        <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path>
+      </svg>
+      <span>Projects</span>
+    </button>
+    <button class="nav-btn" data-section="minecraft">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+      </svg>
+      <span>Minecraft</span>
+    </button>
+    <button class="nav-btn" data-section="status">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+      </svg>
+      <span>Status</span>
+    </button>
+  </nav>
 
-<section class="hero-section">
-  <canvas id="particles"></canvas>
-  <div class="avatar-container">
-    <img src="Assets/ProfileIcon.png" alt="POWBoy1 Avatar" onerror="this.onerror=null; this.src='Assets/HolderIcon.png';">
-  </div>
-  <h1>POWBoy1</h1>
-  <p>Welcome to my projects portal! Explore my games and web tools — all built with creativity and fun in mind.</p>
-  <div class="scroll-indicator">
-    <span>Scroll down</span>
-    <i class="fa-solid fa-chevron-down"></i>
-  </div>
-</section>
-
-<main>
-<section class="projects-section">
-  <div class="projects-grid">
-
-        <div class="project-card">
-      <div class="project-image">
-        <img src="Assets/ProjectsPortalThumbnail.png" alt="Projects Portal"
-          onerror="this.onerror=null; this.src='Assets/HolderThumbnail.png';">
-      </div>
-      <div class="project-content">
-        <div class="project-header">
-          <h2>Projects Portal</h2>
-          <span>Projects Portal</span>
+  <!-- Hero Section -->
+  <section class="hero">
+    <canvas id="particles"></canvas>
+    
+    <div class="hero-content">
+      <div class="avatar">
+        <div class="avatar-inner">
+          <img src="Assets/ProfileIcon.png" alt="POWBoy1 Avatar" class="avatar-img">
         </div>
-        <p class="project-description">
-          The Portal to all my projects! featuring a dynamic particle background.<br>
-          This site is built using HTML, CSS, and JavaScript.
-        </p>
-        <div class="project-links">
-          <a href="https://powboy1.github.io/" class="link-button primary">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
-          <a href="https://github.com/POWBoy1/powboy1.github.io" class="link-button secondary">
-            <i class="fa-brands fa-github"></i> GitHub</a>
+      </div>
+      
+      <h1 class="hero-title">POWBoy1</h1>
+      
+      <p class="hero-description">
+        Welcome to my projects portal! Explore my games, web tools, and my Minecraft Server!
+      </p>
+    </div>
+    
+    <button class="scroll-indicator" id="scroll-btn">
+      <span>Scroll down</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="projects-section">
+    <h2 class="section-title">My Projects</h2>
+    
+    <div class="projects-grid">
+      <!-- Project Cards with Thumbnails -->
+      <article class="project-card">
+        <div class="card-gradient"></div>
+        <div class="card-content">
+          <img src="/Assets/ProjectsPortalThumbnail.png" alt="Projects Portal Thumbnail" class="card-thumbnail">
+          <div class="card-header">
+            <h3>Projects Portal</h3>
+            <span class="card-subtitle">Projects Portal</span>
+          </div>
+          <p class="card-description">
+            The Portal to all my projects! Featuring a dynamic particle background. This site is built using HTML, CSS, and JavaScript.
+          </p>
+          <div class="card-links">
+            <a href="https://powboy1.xyz/" class="btn btn-primary" target="_blank" rel="noopener">Visit</a>
+            <a href="https://github.com/POWBoy1/powboy1.github.io" class="btn btn-secondary" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="card-gradient"></div>
+        <div class="card-content">
+          <img src="/Assets/GamesHubThumbnail.png" alt="GamesHub Thumbnail" class="card-thumbnail">
+          <div class="card-header">
+            <h3>GamesHub</h3>
+            <span class="card-subtitle">HTML5 & Flash Game Portal</span>
+          </div>
+          <p class="card-description">
+            Play a variety of games in a fun, colorful hub inspired by Google Classroom. New titles added regularly. Built with HTML.
+          </p>
+          <div class="card-links">
+            <a href="https://gameshub.powboy1.xyz/" class="btn btn-primary" target="_blank" rel="noopener">Visit</a>
+            <a href="https://github.com/POWBoy1/GamesHub" class="btn btn-secondary" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="card-gradient"></div>
+        <div class="card-content">
+          <img src="/Assets/EpicsShowroomThumbnail.png" alt="Epic's Showroom Thumbnail" class="card-thumbnail">
+          <div class="card-header">
+            <h3>Epic's Showroom</h3>
+            <span class="card-subtitle">Made for epicisgood (Epic)</span>
+          </div>
+          <p class="card-description">
+            Showroom of all the projects made by Epic, Macros, Tools, etc. Built with HTML.
+          </p>
+          <div class="card-links">
+            <a href="https://powboy1.github.io/Epics-Showroom/" class="btn btn-primary" target="_blank" rel="noopener">Visit</a>
+            <a href="https://github.com/POWBoy1/Epics-Showroom" class="btn btn-secondary" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="card-gradient"></div>
+        <div class="card-content">
+          <img src="/Assets/RandomQuoteGeneratorThumbnail.png" alt="Random Quote Generator Thumbnail" class="card-thumbnail">
+          <div class="card-header">
+            <h3>Random Quote Generator</h3>
+            <span class="card-subtitle">Random Quotes Website</span>
+          </div>
+          <p class="card-description">
+            A simple web app that fetches random quotes from an API and displays them with a fresh background color each time you click the button. Built with HTML.
+          </p>
+          <div class="card-links">
+            <a href="https://powboy1.github.io/RandomQuoteGenerator/" class="btn btn-primary" target="_blank" rel="noopener">Visit</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="card-gradient"></div>
+        <div class="card-content">
+          <img src="/Assets/SHSAT-calcThumbnail.png" alt="SHSAT Calculator Thumbnail" class="card-thumbnail">
+          <div class="card-header">
+            <h3>SHSAT Calculator</h3>
+            <span class="card-subtitle">SHSAT Calculator/Predictor</span>
+          </div>
+          <p class="card-description">
+            SHSAT Calculator — Predict your estimated SHSAT score and see your chances of admission to specialized high schools. Built with HTML, JS, & CSS.
+          </p>
+          <div class="card-links">
+            <a href="https://powboy1.github.io/shsat-calc/" class="btn btn-primary" target="_blank" rel="noopener">Visit</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Minecraft Section -->
+  <section id="minecraft" class="minecraft-section">
+    <div class="minecraft-card">
+      <div class="card-gradient minecraft-gradient"></div>
+      <div class="card-content">
+        <div class="minecraft-header">
+          <div class="minecraft-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <h3>Minecraft Server Status</h3>
+        </div>
+        <div id="mc-status" class="mc-status">
+          <div class="mc-loading">
+            <div class="spinner"></div>
+            Checking server status...
+          </div>
+        </div>
+        <div class="mc-controls">
+          <button class="copy-btn" id="copy-java" data-copy="mc.powboy1.xyz">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+            mc.powboy1.xyz
+          </button>
+          <button class="copy-btn copy-btn-accent" id="copy-bedrock" data-copy="19132">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+            Bedrock Port: 19132
+          </button>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="project-card">
-      <div class="project-image">
-        <img src="Assets/GamesHubThumbnail.png" alt="Games Hub"
-          onerror="this.onerror=null; this.src='Assets/HolderThumbnail.png';">
-      </div>
-      <div class="project-content">
-        <div class="project-header">
-          <h2>GamesHub</h2>
-          <span>HTML5 & Flash Game Portal</span>
-        </div>
-        <p class="project-description">
-          Play a variety of games in a fun, colorful hub inspired by Google Classroom. New titles added regularly.<br> 
-          Built with HTML.
-        </p>
-        <div class="project-links">
-          <a href="https://powboy1.github.io/GamesHub/" class="link-button primary">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
-          <a href="https://github.com/POWBoy1/GamesHub" class="link-button secondary">
-            <i class="fa-brands fa-github"></i> GitHub</a>
-        </div>
-      </div>
-    </div>
-
-        <div class="project-card">
-      <div class="project-image">
-        <img src="Assets/EpicsShowroomThumbnail.png" alt="Epic's Showroom"
-          onerror="this.onerror=null; this.src='Assets/HolderThumbnail.png';">
-      </div>
-      <div class="project-content">
-        <div class="project-header">
-          <h2>Epic's Showroom</h2>
-            <span>Made for epicisgood (Epic)</span>
-        </div>
-        <p class="project-description">
-          Showroom of all the projects made by Epic, Macros, Tools, etc.<br>
-          Built with HTML.
-        </p>
-        <div class="project-links">
-          <a href="https://powboy1.github.io/Epics-Showroom/" class="link-button primary">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
-          <a href="https://github.com/POWBoy1/Epics-Showroom" class="link-button secondary">
-            <i class="fa-brands fa-github"></i> GitHub</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-image">
-        <img src="Assets/RandomQuoteGeneratorThumbnail.png" alt="Quote Generator"
-          onerror="this.onerror=null; this.src='Assets/HolderThumbnail.png';">
-      </div>
-      <div class="project-content">
-        <div class="project-header">
-          <h2>Random Quote Generator</h2>
-            <span>Random Quotes Website</span>
-        </div>
-        <p class="project-description">
-          A simple web app that fetches random quotes from an API and displays them with a fresh background color each time you click the button.<br>
-          Built with HTML.
-        </p>
-        <div class="project-links">
-          <a href="Projects/RandomQuoteGenerator/index.html" class="link-button primary">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
-          <a href="https://github.com/POWBoy1/RandomQuoteGenerator" class="link-button secondary">
-            <i class="fa-brands fa-github"></i> GitHub</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-image">
-        <img src="Assets/SHSAT-calcThumbnail.png" alt="SHSAT Calculator"
-          onerror="this.onerror=null; this.src='Assets/HolderThumbnail.png';">
-      </div>
-      <div class="project-content">
-        <div class="project-header">
-          <h2>SHSAT Calculator</h2>
-            <span>SHSAT Calculator/Predictor</span>
-        </div>
-        <p class="project-description">
-          SHSAT Calculator — Predict your estimated SHSAT score and see your chances of admission to specialized high schools.<br>
-          Built with HTML, JS, & CSS.
-        </p>
-        <div class="project-links">
-          <a href="projects/shsat-calc/index.html" class="link-button primary">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
-          <a href="https://github.com/POWBoy1/shsat-calc" class="link-button secondary">
-            <i class="fa-brands fa-github"></i> GitHub</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-  <footer>
-    Made by POWBoy1/POW_Boy1
+  <!-- Footer -->
+  <footer class="footer">
+    <p>
+      Made by POWBoy1 / POW_Boy1
+    </p>
   </footer>
-</main>
 
-<script src="script.js"></script>
-<script>
-  window.addEventListener("load", () => {
-    requestAnimationFrame(() => {
-      window.scrollTo(0, 0);
-    });
-  });
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
