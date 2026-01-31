@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obamafy</title>
+<link rel="icon" href="icon.png" type="image/png">
+
+<style>
+body {
+  background:#111;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+  margin:0;
+  font-family:sans-serif;
+}
+
+h1 { margin-bottom:16px; }
+
+input, button {
+  margin-bottom:12px;
+  padding:6px 12px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+canvas {
+  border:2px solid #fff;
+  image-rendering: pixelated;
+}
+</style>
+</head>
+<body>
+
+<h1>Obamafy</h1>
+<input type="file" id="upload" accept="image/*">
+<button id="startBtn">Start</button>
+<canvas id="canvas" width="150" height="150"></canvas>
+
+<script>
+const upload = document.getElementById("upload");
+const startBtn = document.getElementById("startBtn");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const W = canvas.width;
+const H = canvas.height;
+
+// PERFORMANCE SETTINGS
+const PIXEL_SIZE = 2;
+const MOVE_SPEED = 0.04;
+const FRAME_INTERVAL = 1000 / 30;
+
+let sourcePixels = [];
+let targetPixels = [];
+let assignments = [];
+let animating = false;
+let lastFrame = 0;
+
+// Load target image
+const obamaImg = new Image();
+obamaImg.src = "icon.png";
+obamaImg.crossOrigin = "anonymous";
+
+// Helpers
+function getBrightness(r,g,b){
+  return 0.2126*r + 0.7152*g + 0.0722*b;
+}
+
+function colorDistance(a,b){
+  return Math.hypot(a[0]-b[0], a[1]-b[1], a[2]-b[2]);
+}
+
+// RESET on upload
+upload.addEventListener("change", e=>{
+  animating = false;
+  sourcePixels = [];
+  assignments = [];
+  ctx.clearRect(0,0,W,H);
+
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    const img = new Image();
+    img.src = ev.target.result;
+    img.onload = ()=>{
+      ctx.drawImage(img,0,0,W,H);
+      const data = ctx.getImageData(0,0,W,H).data;
+      sourcePixels = [];
+
+      for(let i=0;i<W*H;i++){
+        const j=i*4;
+        sourcePixels.push({
+          color:[data[j],data[j+1],data[j+2]],
+          brightness:getBrightness(data[j],data[j+1],data[j+2]),
+          x:Math.random()*W,
+          y:Math.random()*H
+        });
+      }
+    };
+  };
+  reader.readAsDataURL(file);
+});
+
+// Prepare target pixels
+obamaImg.onload = ()=>{
+  const c=document.createElement("canvas");
+  c.width=W; c.height=H;
+  const cx=c.getContext("2d");
+  cx.drawImage(obamaImg,0,0,W,H);
+  const d=cx.getImageData(0,0,W,H).data;
+  targetPixels=[];
+
+  for(let i=0;i<W*H;i++){
+    const j=i*4;
+    if(d[j+3]>0){
+      targetPixels.push({
+        x:i%W,
+        y:Math.floor(i/W),
+        color:[d[j],d[j+1],d[j+2]],
+        brightness:getBrightness(d[j],d[j+1],d[j+2])
+      });
+    }
+  }
+};
+
+// Assign pixels (brightness bins + color match)
+function assignPixels(){
+  assignments=[];
+  const bins=10;
+  const srcBins=Array.from({length:bins},()=>[]);
+  const tgtBins=Array.from({length:bins},()=>[]);
+
+  sourcePixels.forEach(p=>{
+    srcBins[Math.min(bins-1,Math.floor(p.brightness/256*bins))].push(p);
+  });
+
+  targetPixels.forEach(p=>{
+    tgtBins[Math.min(bins-1,Math.floor(p.brightness/256*bins))].push(p);
+  });
+
+  function nearestBin(i){
+    for(let d=0;d<bins;d++){
+      if(i-d>=0 && tgtBins[i-d].length) return i-d;
+      if(i+d<bins && tgtBins[i+d].length) return i+d;
+    }
+    return -1;
+  }
+
+  for(let i=0;i<bins;i++){
+    let tArr=tgtBins[i].length?tgtBins[i]:tgtBins[nearestBin(i)];
+    if(!tArr) continue;
+
+    const used=new Set();
+    for(const s of srcBins[i]){
+      if(assignments.length>=targetPixels.length) break;
+
+      let best=-1, bestDist=1e9;
+      for(let j=0;j<tArr.length;j++){
+        if(used.has(j)) continue;
+        const d=colorDistance(s.color,tArr[j].color);
+        if(d<bestDist){bestDist=d;best=j;}
+      }
+      if(best>=0){
+        const t=tArr[best];
+        assignments.push({
+          color:s.color,
+          x:s.x,y:s.y,
+          tx:t.x,ty:t.y
+        });
+        used.add(best);
+      }
+    }
+  }
+}
+
+// Animation
+function animate(time){
+  if(!animating) return;
+  if(time-lastFrame<FRAME_INTERVAL){
+    requestAnimationFrame(animate);
+    return;
+  }
+  lastFrame=time;
+
+  ctx.clearRect(0,0,W,H);
+  for(const p of assignments){
+    p.x += (p.tx-p.x)*MOVE_SPEED;
+    p.y += (p.ty-p.y)*MOVE_SPEED;
+    ctx.fillStyle=`rgb(${p.color[0]},${p.color[1]},${p.color[2]})`;
+    ctx.fillRect(p.x,p.y,PIXEL_SIZE,PIXEL_SIZE);
+  }
+  requestAnimationFrame(animate);
+}
+
+// Start button
+startBtn.onclick=()=>{
+  if(!sourcePixels.length||!targetPixels.length) return;
+  assignPixels();
+  animating=true;
+  lastFrame=0;
+  requestAnimationFrame(animate);
+};
+</script>
+
+</body>
+</html>
