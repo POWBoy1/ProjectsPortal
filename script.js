@@ -1,10 +1,3 @@
-/* ========================================
-   POWBoy1 Projects Portal - JavaScript
-   ======================================== */
-
-// ========================================
-// Particle Background
-// ========================================
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 const colors = ['#ff4d4d', '#4da6ff', '#4dff88', '#ffd24d', '#b84dff'];
@@ -67,9 +60,6 @@ initParticles();
 animateParticles();
 window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
 
-// ========================================
-// Smooth Scroll Function (Ease In-Out)
-// ========================================
 function smoothScroll(target, duration = 600) {
   const start = window.scrollY;
   const end = target.getBoundingClientRect().top + window.scrollY;
@@ -90,9 +80,6 @@ function smoothScroll(target, duration = 600) {
   requestAnimationFrame(animation);
 }
 
-// ========================================
-// Navigation
-// ========================================
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const sectionName = btn.dataset.section;
@@ -111,9 +98,6 @@ document.getElementById('scroll-btn').addEventListener('click', () => {
   if (section) smoothScroll(section);
 });
 
-// ========================================
-// Scroll Animations
-// ========================================
 const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
 const observer = new IntersectionObserver(entries => {
   entries.forEach((entry, index) => {
@@ -122,9 +106,6 @@ const observer = new IntersectionObserver(entries => {
 }, observerOptions);
 document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
 
-// ========================================
-// Minecraft Server Status
-// ========================================
 const mcStatusEl = document.getElementById('mc-status');
 const serverAddress = 'mc.powboy1.xyz';
 async function fetchMcStatus() {
@@ -193,9 +174,6 @@ async function fetchMcStatus() {
 }
 fetchMcStatus();
 
-// ========================================
-// Copy to Clipboard
-// ========================================
 function showToast(message, type = 'success') {
   const existingToast = document.querySelector('.toast');
   if (existingToast) existingToast.remove();
@@ -234,10 +212,11 @@ async function copyToClipboard(text, button) {
 
 document.getElementById('copy-java').addEventListener('click', function() { copyToClipboard(this.dataset.copy, this); });
 document.getElementById('copy-bedrock').addEventListener('click', function() { copyToClipboard(this.dataset.copy, this); });
+document.getElementById('signup-join').addEventListener('click', function() {
+  const url = this.dataset.url || 'https://forms.gle/REPLACE_WITH_YOUR_FORM';
+  window.open(url, '_blank', 'noopener');
+});
 
-// ========================================
-// Smooth scroll to top on load
-// ========================================
 window.addEventListener('load', () => {
   setTimeout(() => smoothScroll(document.body, 500), 50);
 });
