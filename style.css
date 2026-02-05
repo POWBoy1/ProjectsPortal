@@ -112,7 +112,16 @@ h1, h2, h3, h4, h5, h6 {
 .minecraft-card { width: 100%; max-width: 42rem; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: calc(var(--radius) + 0.25rem); overflow: hidden; }
 .minecraft-gradient { background: linear-gradient(90deg, var(--success) 0%, var(--primary) 50%, var(--accent) 100%); }
 .minecraft-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
-.minecraft-icon { padding: 0.5rem; border-radius: var(--radius); background: hsla(142, 71%, 45%, 0.2); color: var(--success); }
+.minecraft-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  background: hsla(142, 71%, 45%, 0.2);
+  color: var(--success);
+}
 .minecraft-header h3 { font-size: 1.5rem; font-weight: 700; }
 .mc-status { background: hsla(220, 25%, 14%, 0.5); border-radius: var(--radius); padding: 1rem; margin-bottom: 1.5rem; min-height: 80px; }
 .mc-loading { display: flex; align-items: center; gap: 0.5rem; color: var(--muted-foreground); }

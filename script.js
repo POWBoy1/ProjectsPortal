@@ -213,7 +213,7 @@ async function copyToClipboard(text, button) {
 document.getElementById('copy-java').addEventListener('click', function() { copyToClipboard(this.dataset.copy, this); });
 document.getElementById('copy-bedrock').addEventListener('click', function() { copyToClipboard(this.dataset.copy, this); });
 document.getElementById('signup-join').addEventListener('click', function() {
-  const url = this.dataset.url || 'https://forms.gle/REPLACE_WITH_YOUR_FORM';
+  const url = this.dataset.url || 'https://docs.google.com/forms/d/e/1FAIpQLSdNF0feOxmMkKqCt-rXoR8ngX-vqP1ACzsqP93aNWh5GJ9bTw/viewform?usp=sharing&ouid=106407334644810506310';
   window.open(url, '_blank', 'noopener');
 });
 
