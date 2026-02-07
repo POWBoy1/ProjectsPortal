@@ -83,10 +83,6 @@ function smoothScroll(target, duration = 600) {
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const sectionName = btn.dataset.section;
-    if (sectionName === 'status') {
-      window.location.href = 'https://status.powboy1.xyz';
-      return;
-    }
     const section = document.getElementById(sectionName);
     if (section) smoothScroll(section);
   });

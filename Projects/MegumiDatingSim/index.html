@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Megumi Dating Sim - JJK</title>
+<style>
+:root{
+  --accent:#66d19e;
+  --text:#e6eef6;
+  --muted:#94a3b8;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;font-family:Inter,system-ui,Segoe UI,Arial;background:#000;overflow:hidden;}
+
+/* BACKGROUND */
+#bg{
+  position:fixed; inset:0;
+  background:url("assets/bg/jujutsu_classroom.jpg") center/cover no-repeat;
+  filter:brightness(.7);
+  z-index:-2;
+  transition: background 0.5s ease;
+}
+#bgOverlay{
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:-1;
+}
+
+/* CHARACTER */
+#character{
+  position:absolute; bottom:0; left:50%;
+  transform:translateX(-50%);
+  height:82%;
+  opacity:0;
+  transition:opacity .6s, transform .6s;
+}
+#character.show {
+  opacity:1;
+  animation: idleBreath 2s ease-in-out infinite, blink 5s step-start infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes idleBreath{
+  0%,100% { transform: translateX(-50%) translateY(0) scale(1); }
+  50% { transform: translateX(-50%) translateY(-3px) scale(1.005); }
+}
+
+/* Blink overlay using ::after */
+#character::after{
+  content:"";
+  position:absolute;
+  bottom:0; left:50%;
+  width:100%; height:18%; /* eyes area approx */
+  background:#000;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-50%);
+}
+
+@keyframes blink{
+  0%,10%,100%{opacity:0;}
+  5%{opacity:1;}
+}
+
+/* UI */
+#ui{
+  position:absolute; bottom:0; width:100%; padding:24px;
+}
+#name{color:var(--accent); font-weight:600; margin-bottom:6px;}
+#dialogueBox{
+  background:rgba(4,10,18,.85); border-radius:12px; padding:16px;
+  color:var(--text); min-height:96px;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+#choices{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;}
+.choice{
+  flex:1; background:#07121a; border:1px solid rgba(255,255,255,.05);
+  color:#dff7ee; padding:10px; border-radius:8px; cursor:pointer; transition:.2s;
+}
+.choice:hover{background:#0b1d29; transform:translateY(-2px);}
+.fade{animation:fade .5s ease forwards;}
+@keyframes fade{from{opacity:0} to{opacity:1}}
+#meterWrapper{margin-top:12px; height:12px; background:rgba(255,255,255,0.05); border-radius:8px; overflow:hidden;}
+#affBar{height:100%; width:0%; background:linear-gradient(90deg,var(--accent),#34b89a); transition:width .4s cubic-bezier(.2,.9,.3,1);}
+#stats{display:flex; justify-content:space-between; margin-top:6px; font-size:0.85rem; color:var(--muted);}
+
+/* Background animations */
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:0.85;}}
+@keyframes sparkle{0%,100%{opacity:1; transform:translate(0,0);}25%{opacity:0.6; transform:translate(2px,-2px);}50%{opacity:0.8; transform:translate(-2px,1px);}75%{opacity:0.5; transform:translate(1px,3px);}}
+@keyframes cursedPulse{0%,100%{filter:brightness(0.7);}50%{filter:brightness(0.9) hue-rotate(10deg);}}
+</style>
+</head>
+<body>
+
+<!-- Backgrounds -->
+<div id="bg"></div>
+<div id="bgOverlay"></div>
+
+<!-- Character -->
+<img id="character" src="assets/megumi/neutral.png">
+
+<!-- UI -->
+<div id="ui">
+  <div id="name">Megumi</div>
+  <div id="dialogueBox"></div>
+  <div id="choices"></div>
+  <div id="meterWrapper"><div id="affBar"></div></div>
+  <div id="stats">Affection: <span id="affVal">0</span> | Turns left: <span id="turnsLeft">5</span></div>
+</div>
+
+<script>
+// ===== FETCH STORY JSON =====
+let STORY_JSON;
+fetch('story.json')
+  .then(res => res.json())
+  .then(data => { STORY_JSON = data; initGame(); })
+  .catch(err => console.error("Failed to load story JSON:", err));
+
+// ===== GAME ENGINE =====
+function initGame(){
+  let affection=0, turns=5, currentSceneId="start";
+  const bgEl = document.getElementById('bg');
+  const overlay = document.getElementById('bgOverlay');
+  const charEl = document.getElementById('character');
+  const dialogueEl = document.getElementById('dialogueBox');
+  const choicesEl = document.getElementById('choices');
+  const affBar = document.getElementById('affBar');
+  const affVal = document.getElementById('affVal');
+  const turnsEl = document.getElementById('turnsLeft');
+  let typeInterval = null;
+
+  function typeText(text){
+    if(typeInterval) clearInterval(typeInterval);
+    dialogueEl.textContent="";
+    let i=0;
+    typeInterval = setInterval(()=>{
+      dialogueEl.textContent+=text[i]||'';
+      i++;
+      if(i>=text.length){ clearInterval(typeInterval); typeInterval=null; }
+    },18);
+  }
+
+  function getScene(id){ return STORY_JSON.scenes.find(s=>s.id===id); }
+
+  function loadScene(id){
+    const scene = getScene(id);
+    if(!scene) return;
+
+    currentSceneId=id;
+    const line = scene.texts[Math.floor(Math.random()*scene.texts.length)];
+
+    // Update background
+    if(scene.bg) bgEl.style.backgroundImage = `url("assets/bg/${scene.bg}")`;
+    bgEl.style.animation = '';
+    overlay.style.animation = '';
+
+    // Background animations
+    if(scene.bg.includes('classroom')){
+      overlay.style.animation = 'flicker 0.3s infinite';
+    } else if(scene.bg.includes('festival')){
+      overlay.style.animation = 'sparkle 1.2s infinite';
+    } else if(scene.bg.includes('cursed')){
+      bgEl.style.animation = 'cursedPulse 2s infinite';
+    }
+
+    // Update character
+    if(scene.char){
+      charEl.classList.remove("show");
+      setTimeout(()=>{
+        charEl.src=`assets/megumi/${scene.char}.png`;
+        charEl.classList.add("show");
+      },200);
+    }
+
+    // Dialogue
+    typeText(line);
+
+    // Choices
+    choicesEl.innerHTML="";
+    if(scene.end){
+      const btn = document.createElement('button');
+      btn.className='choice';
+      btn.textContent='Restart Game';
+      btn.onclick = restartGame;
+      choicesEl.appendChild(btn);
+      return;
+    }
+
+    scene.choices.forEach(choice=>{
+      const b=document.createElement('button');
+      b.className='choice fade';
+      b.textContent=choice.t;
+      b.onclick=()=>{
+        affection+=choice.aff;
+        turns--;
+        updateMeter();
+        loadScene(choice.next);
+      };
+      choicesEl.appendChild(b);
+    });
+
+    updateMeter();
+  }
+
+  function updateMeter(){
+    const val = Math.max(0, Math.min(10, affection+5));
+    affBar.style.width=(val/10*100)+'%';
+    affVal.textContent=affection;
+    turnsEl.textContent=turns;
+  }
+
+  function restartGame(){
+    affection=0; turns=5;
+    updateMeter();
+    loadScene('start');
+  }
+
+  loadScene('start');
+
+  // Keyboard support
+  window.addEventListener('keydown', e=>{
+    const k = e.key;
+    if(k==='r'||k==='R') restartGame();
+    if(/^[1-3]$/.test(k)){
+      const idx = Number(k)-1;
+      const btns = choicesEl.querySelectorAll('.choice');
+      if(btns[idx]) btns[idx].click();
+    }
+  });
+}
+</script>
+</body>
+</html>

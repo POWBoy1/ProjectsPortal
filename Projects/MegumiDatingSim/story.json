@@ -1,0 +1,198 @@
+{
+  "scenes":[
+    {
+      "id":"start",
+      "bg":"jujutsu_classroom.jpg",
+      "char":"neutral",
+      "texts":[
+        "Oh… you’re here. Didn’t expect anyone.",
+        "Hmph, what do you want?",
+        "…You again."
+      ],
+      "choices":[
+        {"t":"Ask about his day","next":"training","aff":1},
+        {"t":"Tease him","next":"annoyedScene","aff":-1},
+        {"t":"Say nothing","next":"neutral","aff":0}
+      ]
+    },
+    {
+      "id":"training",
+      "bg":"training_ground.jpg",
+      "char":"fighting",
+      "texts":[
+        "Let’s spar. Show me what you’ve got.",
+        "Don’t hold back. Focus!",
+        "I won’t go easy on you."
+      ],
+      "choices":[
+        {"t":"Focus carefully","next":"romance","aff":2},
+        {"t":"Half-hearted attempt","next":"neutralEnd","aff":0},
+        {"t":"Mess around","next":"badEnd","aff":-2}
+      ]
+    },
+    {
+      "id":"romance",
+      "bg":"festival.jpg",
+      "char":"happy",
+      "texts":[
+        "You handled that well. Would you join me at the festival?",
+        "Hmm… maybe the festival is more fun with company.",
+        "You’re not bad at all. Want to come with me to the festival?"
+      ],
+      "choices":[
+        {"t":"Of course!","next":"goodEnd","aff":3},
+        {"t":"Maybe later","next":"neutralEnd","aff":0}
+      ]
+    },
+    {
+      "id":"annoyedScene",
+      "bg":"school_hallway.jpg",
+      "char":"annoyed",
+      "texts":[
+        "…That was unnecessary.",
+        "Hmph, don’t joke like that again.",
+        "I don’t have time for nonsense."
+      ],
+      "choices":[
+        {"t":"Apologize","next":"training","aff":1},
+        {"t":"Ignore","next":"badEnd","aff":-2}
+      ]
+    },
+    {
+      "id":"neutral",
+      "bg":"jujutsu_classroom.jpg",
+      "char":"neutral",
+      "texts":["Yeah… just the usual. How about you?"],
+      "choices":[
+        {"t":"Same here","next":"training","aff":1},
+        {"t":"Busy day","next":"neutralEnd","aff":0}
+      ]
+    },
+    {
+      "id":"goodEnd",
+      "bg":"sunset_festival.jpg",
+      "char":"happy",
+      "texts":["Megumi smiles faintly. You’ve earned his trust… maybe more."],
+      "end":true
+    },
+    {
+      "id":"neutralEnd",
+      "bg":"jujutsu_classroom.jpg",
+      "char":"neutral",
+      "texts":["Things stay neutral. Megumi continues his usual routine."],
+      "end":true
+    },
+    {
+      "id":"badEnd",
+      "bg":"cursed_site.jpg",
+      "char":"annoyed",
+      "texts":["Megumi walks away, focusing on curses rather than you."],
+      "end":true
+    },
+    {
+      "id":"festivalExplore",
+      "bg":"festival.jpg",
+      "char":"happy",
+      "texts":[
+        "The festival is beautiful at night. The lanterns cast a soft glow.",
+        "Here, try this. It's a festival specialty.",
+        "You know… this isn't so bad."
+      ],
+      "choices":[
+        {"t":"Hold his hand","next":"deepConnection","aff":2},
+        {"t":"Thank him and relax","next":"gentleRomance","aff":1},
+        {"t":"Make a joke","next":"laughter","aff":1}
+      ]
+    },
+    {
+      "id":"deepConnection",
+      "bg":"festival_night.jpg",
+      "char":"happy",
+      "texts":[
+        "His hand is warm. He doesn't pull away.",
+        "Maybe… I want to know you better.",
+        "Let's meet here again. Just the two of us."
+      ],
+      "choices":[
+        {"t":"Promise to return","next":"trueEnd","aff":3},
+        {"t":"Play it cool","next":"gentleRomance","aff":1}
+      ]
+    },
+    {
+      "id":"gentleRomance",
+      "bg":"festival.jpg",
+      "char":"happy",
+      "texts":[
+        "You two walk through the festival together.",
+        "The night breeze carries the scent of festival food.",
+        "For the first time, Megumi seems at peace."
+      ],
+      "choices":[
+        {"t":"Ask about his past","next":"openHeart","aff":2},
+        {"t":"Just enjoy the moment","next":"peacefulEnd","aff":1}
+      ]
+    },
+    {
+      "id":"laughter",
+      "bg":"festival.jpg",
+      "char":"happy",
+      "texts":[
+        "Despite himself, Megumi laughs.",
+        "You caught him off guard, but it's a good feeling.",
+        "Maybe you're not as annoying as I thought."
+      ],
+      "choices":[
+        {"t":"Make another joke","next":"laughter2","aff":1},
+        {"t":"Compliment his laugh","next":"deepConnection","aff":2}
+      ]
+    },
+    {
+      "id":"laughter2",
+      "bg":"festival.jpg",
+      "char":"happy",
+      "texts":[
+        "Another laugh escapes him. He shakes his head.",
+        "You're something else.",
+        "Let's get some food. I'm starving."
+      ],
+      "choices":[
+        {"t":"Follow him gladly","next":"peacefulEnd","aff":2}
+      ]
+    },
+    {
+      "id":"openHeart",
+      "bg":"quiet_garden.jpg",
+      "char":"neutral",
+      "texts":[
+        "He's quiet for a moment, considering.",
+        "My past... it's complicated. But maybe someday I'll tell you.",
+        "What matters is that you're here now."
+      ],
+      "choices":[
+        {"t":"Wait patiently for him to open up","next":"trueEnd","aff":3},
+        {"t":"Say you'll be there when he's ready","next":"loyalEnd","aff":2}
+      ]
+    },
+    {
+      "id":"trueEnd",
+      "bg":"moonlit_temple.jpg",
+      "char":"happy",
+      "texts":["Megumi's walls finally come down. He truly sees you, and you see him. A genuine bond forms."],
+      "end":true
+    },
+    {
+      "id":"peacefulEnd",
+      "bg":"festival_dawn.jpg",
+      "char":"happy",
+      "texts":["The night ends peacefully. A warm connection blooms between you two, gentle and genuine."],
+      "end":true
+    },
+    {
+      "id":"loyalEnd",
+      "bg":"quiet_garden.jpg",
+      "char":"happy",
+      "texts":["Megumi appreciates your patience and loyalty. A meaningful relationship begins to blossom."],
+      "end":true
+    }
+  ]
+}
