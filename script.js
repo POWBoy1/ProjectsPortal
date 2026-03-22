@@ -72,7 +72,7 @@ function smoothScroll(target, duration = 600) {
     const progress = Math.min(timeElapsed / duration, 1);
     const ease = progress < 0.5
       ? 2 * progress * progress
-      : -1 + (4 - 2 * progress) * progress; // easeInOutQuad
+      : -1 + (4 - 2 * progress) * progress;
     window.scrollTo(0, start + distance * ease);
     if (timeElapsed < duration) requestAnimationFrame(animation);
   }
@@ -82,6 +82,10 @@ function smoothScroll(target, duration = 600) {
 
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    if (btn.dataset.section === 'discord') {
+      window.open('https://discord.gg/dzmPHYdk4Q', '_blank', 'noopener');
+      return;
+    }
     const sectionName = btn.dataset.section;
     const section = document.getElementById(sectionName);
     if (section) smoothScroll(section);
