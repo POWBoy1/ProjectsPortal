@@ -83,7 +83,7 @@ function smoothScroll(target, duration = 600) {
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     if (btn.dataset.section === 'discord') {
-      window.open('https://discord.gg/dzmPHYdk4Q', '_blank', 'noopener');
+      window.open('https://discord.powboy1.xyz/', '_blank', 'noopener');
       return;
     }
     const sectionName = btn.dataset.section;
@@ -212,10 +212,6 @@ async function copyToClipboard(text, button) {
 
 document.getElementById('copy-java').addEventListener('click', function() { copyToClipboard(this.dataset.copy, this); });
 document.getElementById('copy-bedrock').addEventListener('click', function() { copyToClipboard(this.dataset.copy, this); });
-document.getElementById('signup-join').addEventListener('click', function() {
-  const url = this.dataset.url || 'https://docs.google.com/forms/d/e/1FAIpQLSdNF0feOxmMkKqCt-rXoR8ngX-vqP1ACzsqP93aNWh5GJ9bTw/viewform?usp=sharing&ouid=106407334644810506310';
-  window.open(url, '_blank', 'noopener');
-});
 
 window.addEventListener('load', () => {
   setTimeout(() => smoothScroll(document.body, 500), 50);
