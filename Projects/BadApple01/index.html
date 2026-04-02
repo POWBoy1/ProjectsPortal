@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bad Apple // 0 & 1</title>
+<link rel="icon" type="image/png" href="icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    gap: 8px;
+  }
+  #label {
+    font: 8px/1 'Courier New', monospace;
+    letter-spacing: 0.4em;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    user-select: none;
+  }
+  #out { display: block; }
+  #controls { display: flex; gap: 8px; }
+  button {
+    background: #000; color: #fff;
+    border: 1px solid #2a2a2a;
+    padding: 4px 14px;
+    font: 9px/1 'Courier New', monospace;
+    letter-spacing: 0.2em;
+    cursor: pointer; text-transform: uppercase;
+  }
+  button:hover { background: #fff; color: #000; }
+  #bar-wrap { display: flex; align-items: center; gap: 10px; }
+  #bar { flex: 1; height: 1px; background: #1a1a1a; cursor: pointer; }
+  #fill { height: 100%; background: #fff; width: 0%; }
+  #time { font: 8px/1 'Courier New', monospace; color: #2a2a2a; white-space: nowrap; }
+  video, #src { display: none; }
+</style>
+</head>
+<body>
+<div id="label">BAD APPLE // 0 = BLACK · 1 = WHITE</div>
+<canvas id="out"></canvas>
+<div id="controls">
+  <button id="btn">[ PLAY ]</button>
+  <button id="rbtn">[ RESTART ]</button>
+</div>
+<div id="bar-wrap" id="bar-wrap">
+  <div id="bar"><div id="fill"></div></div>
+  <div id="time">0:00 / 0:00</div>
+</div>
+
+<video id="video" src="video.mp4" preload="auto"></video>
+<canvas id="src"></canvas>
+
+<script>
+const VID_W = 960, VID_H = 720;
+const ASPECT = VID_W / VID_H;
+
+const CHAR_W = 4, CHAR_H = 7;    
+
+const UI_H = 60;
+const maxW = window.innerWidth;
+const maxH = window.innerHeight - UI_H;
+
+let COLS = Math.floor(maxW / CHAR_W);
+let ROWS = Math.round(COLS * CHAR_W / (ASPECT * CHAR_H));
+if (ROWS * CHAR_H > maxH) {
+  ROWS = Math.floor(maxH / CHAR_H);
+  COLS = Math.round(ROWS * CHAR_H * ASPECT / CHAR_W);
+}
+
+const OUT_W = COLS * CHAR_W;
+const OUT_H = ROWS * CHAR_H;
+
+const video = document.getElementById('video');
+const src   = document.getElementById('src');
+const out   = document.getElementById('out');
+const sctx  = src.getContext('2d', { willReadFrequently: true });
+const octx  = out.getContext('2d');
+
+src.width  = COLS;  src.height = ROWS;
+out.width  = OUT_W; out.height = OUT_H;
+
+document.getElementById('bar-wrap').style.width = OUT_W + 'px';
+
+function rasterizeChar(ch) {
+  const c = document.createElement('canvas');
+  c.width = CHAR_W; c.height = CHAR_H;
+  const x = c.getContext('2d');
+  x.fillStyle = '#000'; x.fillRect(0, 0, CHAR_W, CHAR_H);
+  x.fillStyle = '#fff';
+  x.font = `bold ${CHAR_H}px "Courier New"`;
+  x.textBaseline = 'top';
+  x.fillText(ch, 0, 0);
+  return x.getImageData(0, 0, CHAR_W, CHAR_H).data;
+}
+
+const px0 = rasterizeChar('0');
+const px1 = rasterizeChar('1');
+
+const outImg      = octx.createImageData(OUT_W, OUT_H);
+const buf         = outImg.data;
+const OUT_STRIDE  = OUT_W * 4;
+const CHAR_STRIDE = CHAR_W * 4;
+
+function renderFrame() {
+  sctx.drawImage(video, 0, 0, COLS, ROWS);
+  const vid = sctx.getImageData(0, 0, COLS, ROWS).data;
+
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < COLS; col++) {
+      const vi = (row * COLS + col) * 4;
+      const lum = (vid[vi] * 77 + vid[vi+1] * 150 + vid[vi+2] * 29) >> 8;
+      const charPx = lum > 127 ? px1 : px0;
+      const cellX = col * CHAR_W;
+      const cellY = row * CHAR_H;
+      for (let cy = 0; cy < CHAR_H; cy++) {
+        buf.set(
+          charPx.subarray(cy * CHAR_STRIDE, cy * CHAR_STRIDE + CHAR_STRIDE),
+          (cellY + cy) * OUT_STRIDE + cellX * 4
+        );
+      }
+    }
+  }
+
+  octx.putImageData(outImg, 0, 0);
+
+  if (video.duration) {
+    fill.style.width = (video.currentTime / video.duration * 100) + '%';
+    time.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
+  }
+
+  if (playing) rafId = requestAnimationFrame(renderFrame);
+}
+
+const btn  = document.getElementById('btn');
+const rbtn = document.getElementById('rbtn');
+const fill = document.getElementById('fill');
+const time = document.getElementById('time');
+let playing = false, rafId = null;
+
+function fmt(s) {
+  return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+}
+
+function togglePlay() {
+  if (playing) {
+    playing = false; video.pause(); cancelAnimationFrame(rafId);
+    btn.textContent = '[ PLAY ]';
+  } else {
+    playing = true; video.play();
+    btn.textContent = '[ PAUSE ]';
+    rafId = requestAnimationFrame(renderFrame);
+  }
+}
+
+rbtn.onclick = () => { video.currentTime = 0; if (!playing) togglePlay(); };
+btn.onclick  = togglePlay;
+
+document.getElementById('bar').onclick = e => {
+  if (!video.duration) return;
+  const r = e.currentTarget.getBoundingClientRect();
+  video.currentTime = ((e.clientX - r.left) / r.width) * video.duration;
+  if (!playing) renderFrame();
+};
+
+video.addEventListener('loadedmetadata', () => {
+  time.textContent = '0:00 / ' + fmt(video.duration);
+  renderFrame();
+});
+video.addEventListener('ended', () => {
+  playing = false; cancelAnimationFrame(rafId);
+  btn.textContent = '[ PLAY ]';
+});
+</script>
+</body>
+</html>
