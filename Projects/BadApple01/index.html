@@ -25,7 +25,7 @@
     user-select: none;
   }
   #out { display: block; }
-  #controls { display: flex; gap: 8px; }
+  #controls { display: flex; gap: 8px; align-items: center; }
   button {
     background: #000; color: #fff;
     border: 1px solid #2a2a2a;
@@ -40,6 +40,16 @@
   #fill { height: 100%; background: #fff; width: 0%; }
   #time { font: 8px/1 'Courier New', monospace; color: #2a2a2a; white-space: nowrap; }
   video, #src { display: none; }
+  #footer {
+    position: fixed;
+    bottom: 10px;
+    right: 14px;
+    font: 8px/1 'Courier New', monospace;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  #footer a { color: #333; text-decoration: none; transition: color 0.15s; }
+  #footer a:hover { color: #fff; }
 </style>
 </head>
 <body>
@@ -49,10 +59,12 @@
   <button id="btn">[ PLAY ]</button>
   <button id="rbtn">[ RESTART ]</button>
 </div>
-<div id="bar-wrap" id="bar-wrap">
+<div id="bar-wrap">
   <div id="bar"><div id="fill"></div></div>
   <div id="time">0:00 / 0:00</div>
 </div>
+
+<div id="footer"><a href="https://en.wikipedia.org/wiki/Rule_86" target="_blank">rule 86</a></div>
 
 <video id="video" src="video.mp4" preload="auto"></video>
 <canvas id="src"></canvas>
@@ -61,7 +73,7 @@
 const VID_W = 960, VID_H = 720;
 const ASPECT = VID_W / VID_H;
 
-const CHAR_W = 4, CHAR_H = 7;    
+const CHAR_W = 4, CHAR_H = 7;
 
 const UI_H = 60;
 const maxW = window.innerWidth;
