@@ -26,6 +26,10 @@
 </head>
 <body>
   <nav class="navbar">
+    <button class="nav-btn" data-section="skills">
+      <i class="fa-solid fa-code"></i>
+      <span>Skills</span>
+    </button>
     <button class="nav-btn" data-section="projects">
       <i class="fa-solid fa-gamepad"></i>
       <span>Projects</span>
@@ -65,6 +69,42 @@
     </button>
   </section>
 
+    <section id="skills" class="skills-section">
+    <h2 class="section-title">What I Know</h2>
+    <div class="skills-grid">
+
+      <div class="skill-group">
+        <div class="skill-group-header">
+          <div class="skill-group-icon">
+            <i class="fa-solid fa-palette"></i>
+          </div>
+          <h3>Frontend</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag skill-tag-primary"><i class="fa-brands fa-html5"></i> HTML5</span>
+          <span class="skill-tag skill-tag-primary"><i class="fa-brands fa-css3-alt"></i> CSS3</span>
+          <span class="skill-tag skill-tag-primary"><i class="fa-brands fa-js"></i> JavaScript</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-header">
+          <div class="skill-group-icon skill-group-icon--accent">
+            <i class="fa-solid fa-server"></i>
+          </div>
+          <h3>Backend & DevOps</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag skill-tag-accent"><i class="fa-brands fa-node-js"></i> Node.js</span>
+          <span class="skill-tag skill-tag-accent"><i class="fa-solid fa-box"></i> npm</span>
+          <span class="skill-tag skill-tag-accent"><i class="fa-solid fa-circle-play"></i> PM2</span>
+          <span class="skill-tag skill-tag-accent"><i class="fa-solid fa-shield-halved"></i> nginx</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <section id="projects" class="projects-section">
     <h2 class="section-title">My Projects</h2>
     
@@ -100,6 +140,7 @@
           </p>
           <div class="card-links">
             <a href="https://crimsonzone.powboy1.xyz/" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
+            <a href="https://github.com/POWBoy1/CrimsonZone" class="btn btn-secondary" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
           </div>
         </div>
       </article>
@@ -116,7 +157,7 @@
             Offically no longer maintained, feel free to check out the source code and host it yourself! Built with HTML, CSS, and JavaScript.
           </p>
           <div class="card-links">
-            <a href="https://drive.google.com/file/d/1CKvsWmb7E-BDsdvS0QFkdEG43Gp8TjsZ/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
+            <a href="https://drive.google.com/file/d/1CKvsWmb7E-BDsdvS0QFkdEG43Gp8TjsZ/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Source Code</a>
             <a href="https://github.com/POWBoy1/GamesHub" class="btn btn-secondary" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
           </div>
         </div>
@@ -215,6 +256,7 @@
   </section>
 
   <section id="minecraft" class="minecraft-section">
+    <h2 class="section-title">My Minecraft Server</h2>
     <div class="minecraft-card">
       <div class="card-gradient minecraft-gradient"></div>
       <div class="card-content">
